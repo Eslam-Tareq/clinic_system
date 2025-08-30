@@ -4,13 +4,13 @@ import { AuthService } from './auth.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/user/user.entity';
 import { IsEmailUniqueConstraint } from 'src/common/validators/email-exists.validator';
-import { TokenModule } from 'src/token/token.module';
-import { GoogleService } from 'src/google/google.service';
+
 import { GoogleModule } from 'src/google/google.module';
+import { AuthGuard } from 'src/common/guards/auth.guard';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User]), TokenModule, GoogleModule],
+  imports: [TypeOrmModule.forFeature([User]), GoogleModule],
   controllers: [AuthController],
-  providers: [AuthService, IsEmailUniqueConstraint],
+  providers: [AuthService, IsEmailUniqueConstraint, AuthGuard],
 })
 export class AuthModule {}

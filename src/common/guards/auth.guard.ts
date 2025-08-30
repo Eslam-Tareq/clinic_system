@@ -1,9 +1,14 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { TokenService } from 'src/token/token.service';
+import { UserService } from 'src/user/user.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private readonly jwtService: JwtService) {}
+  constructor(
+    private readonly tokenService: TokenService,
+    private readonly userService: UserService,
+  ) {}
   async canActivate(context: ExecutionContext) {
     const request = context.switchToHttp().getRequest();
     let token: string;
@@ -17,9 +22,20 @@ export class AuthGuard implements CanActivate {
     }
     console.log('token', token);
     if (!token) {
-      console.log(1);
-
       return false;
     }
+    let decoded: any;
+    try {
+      decoded = this.tokenService.validateJwtToken(token);
+    } catch (err) {
+      return false;
+    }
+    const user = await this.userService.findById(decoded!._id);
+    if (!user) {
+      return false;
+    }
+
+    request.user = user;
+    return true;
   }
 }
