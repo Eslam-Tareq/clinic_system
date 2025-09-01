@@ -1,14 +1,16 @@
 import { UserGender } from 'src/enums/user-gender.enum';
 import { UserRoles } from 'src/enums/user-role.enum';
+import { MedicalHistory } from 'src/medical-history/medical-history.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
-@Entity('users')
+@Entity()
 export class User {
   @PrimaryGeneratedColumn('identity')
   id: number;
@@ -32,4 +34,6 @@ export class User {
   created_at: Date;
   @UpdateDateColumn()
   updated_at: Date;
+  @OneToMany(() => MedicalHistory, (medicalHistory) => medicalHistory.user)
+  medicalHistories: MedicalHistory[];
 }
