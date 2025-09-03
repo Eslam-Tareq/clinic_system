@@ -5,9 +5,10 @@ import {
   Column,
   CreateDateColumn,
   ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 
-@Entity()
+@Entity('attachments')
 export class Attachment {
   @PrimaryGeneratedColumn()
   id: number;
@@ -32,5 +33,6 @@ export class Attachment {
   @ManyToOne(() => MedicalHistory, (md) => md.attachments, {
     onDelete: 'CASCADE',
   })
+  @JoinColumn({ name: 'medical_history_id' })
   medicalHistory: MedicalHistory;
 }

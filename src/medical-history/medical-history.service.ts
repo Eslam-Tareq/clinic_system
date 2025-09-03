@@ -1,5 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { MedicalHistory } from './medical-history.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/user/user.entity';
@@ -72,6 +72,9 @@ export class MedicalHistoryService {
     files: Express.Multer.File[],
     userId: number,
   ) {
+    const removed_attachments_ids =
+      updateMedicalHistoryDto.removed_attachments_ids;
+    delete updateMedicalHistoryDto.removed_attachments_ids;
     const medicalHistory = await this.medicalHistoryRepo.findOne({
       where: { id, user: { id: userId } },
       relations: ['attachments'],
@@ -85,17 +88,25 @@ export class MedicalHistoryService {
     );
     const updatedMedicalHistory = await this.medicalHistoryRepo.findOne({
       where: { id },
+      relations: ['attachments'],
     });
-    if (files && files.length > 0) {
-      if (medicalHistory.attachments) {
-        console.log('hel;DFLASGL;ASGL');
+    if (removed_attachments_ids && removed_attachments_ids.length > 0) {
+      const removedAttachments = await this.attachmentRepo.query(`
+      select * from attachments
+      where medical_history_id =${medicalHistory.id} and id in (${removed_attachments_ids.join(',')})
+      
+      `);
+      if (removedAttachments && removedAttachments.length > 0) {
         await this.supabaseService.deleteFiles(
-          medicalHistory.attachments.map((att) => att.path),
+          removedAttachments.map((att: Attachment) => att.path),
         );
-        await this.attachmentRepo.delete({
-          medicalHistory: { id: medicalHistory.id },
-        });
+        await this.attachmentRepo.query(
+          `delete from attachments where medical_history_id =${medicalHistory.id} and id in (${removed_attachments_ids.join(',')})`,
+        );
       }
+    }
+
+    if (files && files.length > 0) {
       const uploadFiles = await this.supabaseService.uploadFile(files);
       const attachmentsPromises = uploadFiles.map((file) => {
         const attachment = this.attachmentRepo.create({
@@ -109,7 +120,10 @@ export class MedicalHistoryService {
         return attachment;
       });
       const attachments = await this.attachmentRepo.save(attachmentsPromises);
-      return { ...updatedMedicalHistory, attachments };
+      return {
+        ...updatedMedicalHistory,
+        attachments: [...attachments, ...medicalHistory.attachments],
+      };
     }
     return updatedMedicalHistory;
   }
@@ -127,5 +141,13 @@ export class MedicalHistoryService {
         medicalHistory.attachments.map((att) => att.path),
       );
     }
+  }
+  async getMedicalHistoriesByUserId(userId: number) {
+    const medicalHistories = await this.medicalHistoryRepo.find({
+      where: { user: { id: userId } },
+      relations: ['attachments'],
+    });
+
+    return medicalHistories;
   }
 }

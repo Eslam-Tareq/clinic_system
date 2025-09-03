@@ -20,7 +20,6 @@ export class AuthGuard implements CanActivate {
     } else {
       token = request.cookies?.accessToken;
     }
-    console.log('token', token);
     if (!token) {
       return false;
     }
@@ -30,7 +29,7 @@ export class AuthGuard implements CanActivate {
     } catch (err) {
       return false;
     }
-    const user = await this.userService.findById(decoded!._id);
+    const user = await this.userService.findById(decoded!.id);
     if (!user) {
       return false;
     }

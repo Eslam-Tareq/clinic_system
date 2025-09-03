@@ -4,13 +4,14 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 
-@Entity()
+@Entity('medical_histories')
 export class MedicalHistory {
   @PrimaryGeneratedColumn()
   id: number;
@@ -29,6 +30,7 @@ export class MedicalHistory {
   @ManyToOne(() => User, (user) => user.medicalHistories, {
     onDelete: 'CASCADE',
   })
+  @JoinColumn({ name: 'user_id' })
   user: User;
   @OneToMany(() => Attachment, (attachment) => attachment.medicalHistory, {
     onDelete: 'CASCADE',

@@ -19,6 +19,9 @@ import { AuthGuard } from 'src/common/guards/auth.guard';
 import { ResponseDto } from 'src/common/filters/response.dto';
 import { UpdateMedicalHistoryDto } from './dtos/update-medical-history.dto';
 import { CreateMedicalHistoryDto } from './dtos/create-medical-history.dto';
+import { RoleGuard } from 'src/common/guards/role.gaurd';
+import { Role } from 'src/common/guards/role.decorator';
+import { UserRoles } from 'src/enums/user-role.enum';
 @Controller('medical-history')
 export class MedicalHistoryController {
   constructor(private readonly medicalHistoryService: MedicalHistoryService) {}
@@ -103,6 +106,20 @@ export class MedicalHistoryController {
       return ResponseDto.ok(undefined, 'Medical history deleted successfully');
     } catch (error) {
       throw error;
+    }
+  }
+  @UseGuards(AuthGuard, RoleGuard)
+  @Role([UserRoles.ADMIN])
+  @Get('user/:userId')
+  async getMedicalHistoriesByUserId(
+    @Param('userId', ParseIntPipe) UserId: number,
+  ) {
+    try {
+      const result =
+        await this.medicalHistoryService.getMedicalHistoriesByUserId(UserId);
+      return ResponseDto.ok(result);
+    } catch (err) {
+      throw err;
     }
   }
 }

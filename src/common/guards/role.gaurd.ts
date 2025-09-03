@@ -21,7 +21,7 @@ export class RoleGuard implements CanActivate {
     }
     const request = context.switchToHttp().getRequest();
     const user = request.user;
-
+    console.log('user', user);
     if (!requiredRole.includes(user.role)) {
       throw new ForbiddenException(
         `Access denied: You must have the role of ${requiredRole.join(' & ')} to access this resource.`,

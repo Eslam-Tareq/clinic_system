@@ -1,9 +1,11 @@
+import { Type } from 'class-transformer';
 import {
   IsString,
   IsDateString,
   IsOptional,
   IsArray,
   IsNumber,
+  IsInt,
 } from 'class-validator';
 
 export class UpdateMedicalHistoryDto {
@@ -23,4 +25,9 @@ export class UpdateMedicalHistoryDto {
   @IsOptional()
   @IsString()
   notes?: string;
+  @IsOptional()
+  @IsArray()
+  @IsInt({ each: true })
+  @Type(() => Number)
+  removed_attachments_ids?: number[];
 }
