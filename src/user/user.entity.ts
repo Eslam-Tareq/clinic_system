@@ -1,11 +1,16 @@
+import { AppointmentBooking } from 'src/appointment/appointment-booking.entity';
+import { Appointment } from 'src/appointment/appointment.entity';
+import { DoctorProfile } from 'src/doctor/doctor-profile.entity';
 import { UserGender } from 'src/enums/user-gender.enum';
 import { UserRoles } from 'src/enums/user-role.enum';
 import { MedicalHistory } from 'src/medical-history/medical-history.entity';
+import { TimeSlot } from 'src/time-slots/time-slot.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
@@ -36,4 +41,22 @@ export class User {
   updated_at: Date;
   @OneToMany(() => MedicalHistory, (medicalHistory) => medicalHistory.user)
   medicalHistories: MedicalHistory[];
+  @OneToOne(() => DoctorProfile, (doctorProfile) => doctorProfile.doctor)
+  doctorProfile: DoctorProfile;
+  // @OneToMany(() => TimeSlot, (timeslot) => timeslot.doctor, {
+  //   onDelete: 'CASCADE',
+  // })
+  // slots: TimeSlot[];
+  @OneToMany(() => Appointment, (appointment) => appointment.patient, {
+    onDelete: 'CASCADE',
+  })
+  appointments: Appointment[];
+  @OneToMany(
+    () => AppointmentBooking,
+    (appointment_booking) => appointment_booking.patient,
+    {
+      onDelete: 'CASCADE',
+    },
+  )
+  appointment_bookings: AppointmentBooking[];
 }

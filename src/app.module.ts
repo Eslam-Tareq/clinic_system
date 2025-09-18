@@ -7,6 +7,7 @@ import { APP_FILTER } from '@nestjs/core';
 import { CatchEverythingFilter } from './common/filters/custom-exception.filter';
 import { SupabaseModule } from './supabase/supabase.module';
 import { MedicalHistoryModule } from './medical-history/medical-history.module';
+import { TimeSlotModule } from './time-slots/time-slot.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { MedicalHistoryModule } from './medical-history/medical-history.module';
     UserModule,
     SupabaseModule,
     MedicalHistoryModule,
+    TimeSlotModule,
   ],
   providers: [{ provide: APP_FILTER, useClass: CatchEverythingFilter }],
 })
