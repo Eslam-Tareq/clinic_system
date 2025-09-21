@@ -31,7 +31,7 @@ export class MedicalHistoryController {
     FilesInterceptor('files', 10, MedicalHistoryController.multerOptions),
   )
   @Post()
-  async createFile(
+  async createMyMedicalHistory(
     @Body() createMedicalHistoryDto: CreateMedicalHistoryDto,
     @UploadedFiles() files: Array<Express.Multer.File>,
     @Req() req: any,
@@ -50,6 +50,7 @@ export class MedicalHistoryController {
       throw error;
     }
   }
+
   @UseGuards(AuthGuard)
   @Get('my-medical-histories')
   async getMyMedicalHistories(@Req() req: any) {
@@ -120,6 +121,69 @@ export class MedicalHistoryController {
       return ResponseDto.ok(result);
     } catch (err) {
       throw err;
+    }
+  }
+  @UseGuards(AuthGuard, RoleGuard)
+  @Role([UserRoles.ADMIN])
+  @UseInterceptors(
+    FilesInterceptor('files', 10, MedicalHistoryController.multerOptions),
+  )
+  @Post('user/:userId')
+  async createMedicalHistoryByAdmin(
+    @Body() createMedicalHistoryDto: CreateMedicalHistoryDto,
+    @UploadedFiles() files: Array<Express.Multer.File>,
+    @Param('userId', ParseIntPipe) userId: number,
+  ) {
+    try {
+      const result = await this.medicalHistoryService.create(
+        createMedicalHistoryDto,
+        files,
+        userId,
+      );
+      return ResponseDto.created(
+        result,
+        'Medical history created successfully',
+      );
+    } catch (error) {
+      throw error;
+    }
+  }
+  @UseGuards(AuthGuard, RoleGuard)
+  @Role([UserRoles.ADMIN])
+  @UseInterceptors(
+    FilesInterceptor('files', 10, MedicalHistoryController.multerOptions),
+  )
+  @Put(':id/user/:userId')
+  async updateOneMedicalHistoryByAdmin(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() updateMedicalHistoryDto: UpdateMedicalHistoryDto,
+    @UploadedFiles() files: Array<Express.Multer.File>,
+    @Param('userId', ParseIntPipe) userId: number,
+  ) {
+    try {
+      const result = await this.medicalHistoryService.updateOne(
+        id,
+        updateMedicalHistoryDto,
+        files,
+        userId,
+      );
+      return ResponseDto.ok(result, 'Medical history created successfully');
+    } catch (error) {
+      throw error;
+    }
+  }
+  @UseGuards(AuthGuard, RoleGuard)
+  @Role([UserRoles.ADMIN])
+  @Delete(':id/user/:userId')
+  async deleteOneMedicalHistoryByAdmin(
+    @Param('id', ParseIntPipe) id: number,
+    @Param('userId', ParseIntPipe) userId: number,
+  ) {
+    try {
+      await this.medicalHistoryService.deleteOne(id, userId);
+      return ResponseDto.ok(undefined, 'Medical history deleted successfully');
+    } catch (error) {
+      throw error;
     }
   }
 }

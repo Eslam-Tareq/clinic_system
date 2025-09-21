@@ -111,6 +111,19 @@ WHERE gs >= '${start_date}'::timestamptz
     if (!timeSlot) {
       throw new NotFoundException('time slot not found');
     }
+    if (updateTimeSlotDto.date) {
+      const checkDate = await this.TimeSlotRepo.findOne({
+        where: { date: updateTimeSlotDto.date },
+      });
+      console.log('checkDate', checkDate);
+      if (
+        checkDate &&
+        new Date(timeSlot.date).getTime() !=
+          new Date(updateTimeSlotDto.date).getTime()
+      ) {
+        throw new BadRequestException(`${timeSlot.date} is already found`);
+      }
+    }
     timeSlot.date = updateTimeSlotDto.date;
     timeSlot.status = updateTimeSlotDto.status;
     const updatedTimeSlot = await this.TimeSlotRepo.save(timeSlot);
