@@ -35,18 +35,18 @@ export class TimeSlotService {
   async getAllTimeSlots(queryObject: GetAllQueryDto) {
     const dataBaseQuery = `
     SELECT 
-      to_char(date::date, 'YYYY-MM-DD') AS slot_date,
-      json_agg(
-        json_build_object(
-          'id', id,
-          'time', to_char(date, 'HH24:MI'),
-          'status', status
-        ) ORDER BY date
-      ) AS slots
-    FROM time_slots
-    WHERE date>= '${new Date().toISOString()}'
-    GROUP BY date::date
-    ORDER BY slot_date
+  to_char(date::date, 'YYYY-MM-DD') AS slot_date,
+  json_agg(
+    json_build_object(
+      'id', id,
+      'time', to_char(date, 'HH12:MI AM'),
+      'status', status
+    ) ORDER BY date
+  ) AS slots
+FROM time_slots
+WHERE date >= '${new Date().toISOString()}'
+GROUP BY date::date
+ORDER BY slot_date
   `;
     const totalItemsNumber = (
       await this.TimeSlotRepo.query(`
