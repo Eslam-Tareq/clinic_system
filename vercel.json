@@ -11,11 +11,8 @@
   ],
   "functions": {
     "api/index.ts": {
-      "maxDuration": 30,
-      "runtime": "@vercel/node@20.x"
+      "runtime": "@vercel/node@3.0.21",
+      "maxDuration": 30
     }
-  },
-  "env": {
-    "NODE_OPTIONS": "--require tsconfig-paths/register"
   }
 }

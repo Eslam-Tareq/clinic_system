@@ -9,7 +9,7 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Appointment } from './appointment.entity';
+import { Appointment } from 'src/appointment/appointment.entity';
 import { User } from 'src/user/user.entity';
 
 @Entity()

@@ -12,7 +12,7 @@ import {
   Unique,
   CreateDateColumn,
 } from 'typeorm';
-import { AppointmentBooking } from './appointment-booking.entity';
+import { AppointmentBooking } from 'src/appointment/appointment-booking.entity';
 
 @Entity('appointments')
 export class Appointment {
