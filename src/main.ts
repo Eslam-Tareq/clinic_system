@@ -25,7 +25,7 @@ async function bootstrap() {
   );
   app.use(cookieParser());
 
-  app.setGlobalPrefix(process.env.GLOBAL_PREFIX);
+  app.setGlobalPrefix(process.env.GLOBAL_PREFIX, { exclude: ['/'] });
   await app.listen(process.env.PORT ?? 3000, () =>
     console.log(`Server is running on port ${process.env.PORT ?? 3000}`),
   );

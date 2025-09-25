@@ -8,6 +8,7 @@ import { CatchEverythingFilter } from './common/filters/custom-exception.filter'
 import { SupabaseModule } from './supabase/supabase.module';
 import { MedicalHistoryModule } from './medical-history/medical-history.module';
 import { TimeSlotModule } from './time-slots/time-slot.module';
+import { AppController } from './app.controller';
 
 @Module({
   imports: [
@@ -20,5 +21,6 @@ import { TimeSlotModule } from './time-slots/time-slot.module';
     TimeSlotModule,
   ],
   providers: [{ provide: APP_FILTER, useClass: CatchEverythingFilter }],
+  controllers: [AppController],
 })
 export class AppModule {}
