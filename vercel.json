@@ -1,11 +1,21 @@
 {
   "version": 2,
-  "builds": [{ "src": "src/server.ts", "use": "@vercel/node" }],
-  "routes": [
+  "buildCommand": "npm run build",
+  "outputDirectory": "./",
+  "installCommand": "npm install",
+  "rewrites": [
     {
-      "src": "/(.*)",
-      "dest": "src/server.ts",
-      "methods": ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"]
+      "source": "/(.*)",
+      "destination": "/api"
     }
-  ]
+  ],
+  "functions": {
+    "api/index.ts": {
+      "maxDuration": 30,
+      "runtime": "@vercel/node@20.x"
+    }
+  },
+  "env": {
+    "NODE_OPTIONS": "--require tsconfig-paths/register"
+  }
 }
