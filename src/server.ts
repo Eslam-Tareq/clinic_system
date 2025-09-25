@@ -1,3 +1,4 @@
+import 'tsconfig-paths/register';
 import dotenv = require('dotenv');
 dotenv.config();
 import serverlessExpress from '@vendia/serverless-express';
