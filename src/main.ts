@@ -4,7 +4,7 @@ import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { SwaggerConfig } from './config/swagger';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
-import * as cookieParser from 'cookie-parser';
+import cookieParser = require('cookie-parser');
 import { useContainer } from 'class-validator';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
