@@ -1,6 +1,6 @@
 // src/server.ts
 import 'reflect-metadata';
-import * as dotenv from 'dotenv';
+import dotenv = require('dotenv');
 dotenv.config();
 
 import { NestFactory } from '@nestjs/core';
