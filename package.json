@@ -28,6 +28,7 @@
     "@nestjs/swagger": "^7.4.2",
     "@nestjs/typeorm": "^11.0.0",
     "@supabase/supabase-js": "^2.56.1",
+    "@vendia/serverless-express": "^4.12.6",
     "axios": "^1.11.0",
     "bcrypt": "^6.0.0",
     "class-transformer": "^0.5.1",

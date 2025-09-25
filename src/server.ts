@@ -1,67 +1,46 @@
-// src/server.ts
-import 'reflect-metadata';
 import dotenv = require('dotenv');
 dotenv.config();
+import serverlessExpress from '@vendia/serverless-express';
 
 import { NestFactory } from '@nestjs/core';
-import { ExpressAdapter } from '@nestjs/platform-express';
-import type { Request, Response } from 'express';
-import express = require('express');
 import { AppModule } from './app.module';
 import { SwaggerConfig } from './config/swagger';
-import { ValidationPipe } from '@nestjs/common';
-import { useContainer } from 'class-validator';
-
-// طريقة import متوافقة مع TypeScript بدون تعديل tsconfig:
+import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import cookieParser = require('cookie-parser');
+import { useContainer } from 'class-validator';
+import { Handler } from 'express';
+let server: Handler;
 
-const server = express();
-
-// Initialization once (cold start handled here)
-const initPromise = (async () => {
-  const app = await NestFactory.create(AppModule, new ExpressAdapter(server));
-
-  // اختياري: شغّل الـ Swagger بس في non-production لو حاب تقلل حجم المنتج:
-  if (process.env.NODE_ENV !== 'production') {
-    try {
-      SwaggerConfig.setup(app);
-    } catch (e) {
-      console.warn('Swagger setup failed:', e);
-    }
-  }
-
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  SwaggerConfig.setup(app);
   app.enableCors({
     origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
-
   useContainer(app.select(AppModule), { fallbackOnErrors: true });
 
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
+      // forbidNonWhitelisted: true,
       transform: true,
     }),
   );
-
   app.use(cookieParser());
 
-  const prefix = process.env.GLOBAL_PREFIX ?? 'api';
-  app.setGlobalPrefix(prefix, { exclude: ['/'] });
-
-  // مهم: نسمي init بدل listen
-  await app.init();
-  return server;
-})();
-
-export default async function handler(req: Request, res: Response) {
-  try {
-    const appServer = await initPromise;
-    appServer(req, res);
-  } catch (err) {
-    console.error('Server handler error:', err);
-    res.statusCode = 500;
-    res.end('Internal Server Error');
-  }
+  app.setGlobalPrefix(process.env.GLOBAL_PREFIX, { exclude: ['/'] });
+  app.init();
+  const expressApp = app.getHttpAdapter().getInstance();
+  return serverlessExpress({ app: expressApp });
 }
+bootstrap();
+export const handler: Handler = async (
+  event: any,
+  context: any,
+  callback: any,
+) => {
+  server = server ?? (await bootstrap());
+  return server(event, context, callback);
+};
