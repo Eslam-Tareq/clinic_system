@@ -12,7 +12,7 @@ import {
 } from '@nestjs/common';
 import { TimeSlotService } from './time-slot.service';
 import { CreateTimeSlotDto } from './dtos/create-one-time-slot.dto';
-import { ResponseDto } from 'src/common/filters/response.dto';
+import { ResponseDto } from '../common/filters/response.dto';
 import { CreateMultipleTimeSlotsDto } from './dtos/create-multiple-time-slots.dto';
 import { GetAllQueryDto } from './dtos/get-all-query.dto';
 import { UpdateTimeSlotDto } from './dtos/update-one-time-slot.dto';

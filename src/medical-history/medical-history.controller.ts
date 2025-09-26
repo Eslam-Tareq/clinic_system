@@ -15,13 +15,13 @@ import {
 import { MedicalHistoryService } from './medical-history.service';
 import * as multer from 'multer';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { AuthGuard } from 'src/common/guards/auth.guard';
-import { ResponseDto } from 'src/common/filters/response.dto';
+import { AuthGuard } from '../common/guards/auth.guard';
+import { ResponseDto } from '../common/filters/response.dto';
 import { UpdateMedicalHistoryDto } from './dtos/update-medical-history.dto';
 import { CreateMedicalHistoryDto } from './dtos/create-medical-history.dto';
-import { RoleGuard } from 'src/common/guards/role.gaurd';
-import { Role } from 'src/common/guards/role.decorator';
-import { UserRoles } from 'src/enums/user-role.enum';
+import { RoleGuard } from '../common/guards/role.gaurd';
+import { Role } from '../common/guards/role.decorator';
+import { UserRoles } from '../enums/user-role.enum';
 @Controller('medical-history')
 export class MedicalHistoryController {
   constructor(private readonly medicalHistoryService: MedicalHistoryService) {}

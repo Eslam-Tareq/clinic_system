@@ -7,7 +7,7 @@ import {
 import { FilesInterceptor } from '@nestjs/platform-express';
 import * as multer from 'multer';
 import { FireBaseService } from './firebase.service';
-import { ResponseDto } from 'src/common/filters/response.dto';
+import { ResponseDto } from '../common/filters/response.dto';
 
 @Controller('firebase')
 export class FirebaseController {

@@ -1,6 +1,6 @@
-import { Appointment } from 'src/appointment/appointment.entity';
-import { TimeSlotStatus } from 'src/enums/time-slot-status.enum';
-import { User } from 'src/user/user.entity';
+import { Appointment } from '../appointment/appointment.entity';
+import { TimeSlotStatus } from '../enums/time-slot-status.enum';
+import { User } from '../user/user.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,

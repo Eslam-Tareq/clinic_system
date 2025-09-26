@@ -8,7 +8,7 @@ import { Repository } from 'typeorm';
 import { TimeSlot } from './time-slot.entity';
 import { CreateTimeSlotDto } from './dtos/create-one-time-slot.dto';
 import { CreateMultipleTimeSlotsDto } from './dtos/create-multiple-time-slots.dto';
-import { ApiFeatures } from 'src/common/utils/api_features';
+import { ApiFeatures } from '../common/utils/api_features';
 import { GetAllQueryDto } from './dtos/get-all-query.dto';
 import { UpdateTimeSlotDto } from './dtos/update-one-time-slot.dto';
 

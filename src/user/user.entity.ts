@@ -1,10 +1,10 @@
-import { AppointmentBooking } from 'src/appointment/appointment-booking.entity';
-import { Appointment } from 'src/appointment/appointment.entity';
-import { DoctorProfile } from 'src/doctor/doctor-profile.entity';
-import { UserGender } from 'src/enums/user-gender.enum';
-import { UserRoles } from 'src/enums/user-role.enum';
-import { MedicalHistory } from 'src/medical-history/medical-history.entity';
-import { TimeSlot } from 'src/time-slots/time-slot.entity';
+import { AppointmentBooking } from '../appointment/appointment-booking.entity';
+import { Appointment } from '../appointment/appointment.entity';
+import { DoctorProfile } from '../doctor/doctor-profile.entity';
+import { UserGender } from '../enums/user-gender.enum';
+import { UserRoles } from '../enums/user-role.enum';
+import { MedicalHistory } from '../medical-history/medical-history.entity';
+import { TimeSlot } from '../time-slots/time-slot.entity';
 import {
   Column,
   CreateDateColumn,

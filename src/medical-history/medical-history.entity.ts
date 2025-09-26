@@ -1,5 +1,5 @@
-import { Attachment } from 'src/attachement/attachment.entity';
-import { User } from 'src/user/user.entity';
+import { Attachment } from '../attachement/attachment.entity';
+import { User } from '../user/user.entity';
 import {
   Column,
   CreateDateColumn,

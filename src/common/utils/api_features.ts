@@ -1,12 +1,12 @@
-import { GetAllQueryDto } from 'src/time-slots/dtos/get-all-query.dto';
 import { Repository } from 'typeorm';
+import { GetAllQueryDto } from '../../time-slots/dtos/get-all-query.dto';
 
 export class ApiFeatures {
   public dataBaseQuery: string;
   public Repo: Repository<any>;
   public queryObj: GetAllQueryDto;
   public query: Promise<any>;
-  public paginationMeta: PaginationMeta;
+  public paginationMeta: any;
   constructor(dataBaseQuery: string, queryObj: GetAllQueryDto) {
     this.dataBaseQuery = dataBaseQuery;
     this.queryObj = queryObj;

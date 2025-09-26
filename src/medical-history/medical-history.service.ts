@@ -2,10 +2,10 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { In, Repository } from 'typeorm';
 import { MedicalHistory } from './medical-history.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/user/user.entity';
+import { User } from '../user/user.entity';
 import { CreateMedicalHistoryDto } from './dtos/create-medical-history.dto';
-import { SupabaseService } from 'src/supabase/supabase.service';
-import { Attachment } from 'src/attachement/attachment.entity';
+import { SupabaseService } from '../supabase/supabase.service';
+import { Attachment } from '../attachement/attachment.entity';
 import { UpdateMedicalHistoryDto } from './dtos/update-medical-history.dto';
 
 @Injectable()

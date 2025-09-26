@@ -1,6 +1,6 @@
 import { IsDateString, IsInt, Min } from 'class-validator';
-import { IsFutureDate } from 'src/common/validators/is-future-date.validator';
-import { IsGreaterThan } from 'src/common/validators/valid-date-interval.validator';
+import { IsFutureDate } from '../../common/validators/is-future-date.validator';
+import { IsGreaterThan } from '../../common/validators/valid-date-interval.validator';
 
 export class CreateMultipleTimeSlotsDto {
   @IsDateString()

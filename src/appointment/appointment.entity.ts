@@ -1,7 +1,3 @@
-import { AppointmentStatus } from 'src/enums/appointment-status.enum';
-import { AppointmentType } from 'src/enums/appointment-type.enum';
-import { TimeSlot } from 'src/time-slots/time-slot.entity';
-import { User } from 'src/user/user.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -12,7 +8,11 @@ import {
   Unique,
   CreateDateColumn,
 } from 'typeorm';
-import { AppointmentBooking } from 'src/appointment/appointment-booking.entity';
+import { TimeSlot } from '../time-slots/time-slot.entity';
+import { User } from '../user/user.entity';
+import { AppointmentType } from '../enums/appointment-type.enum';
+import { AppointmentStatus } from '../enums/appointment-status.enum';
+import { AppointmentBooking } from './appointment-booking.entity';
 
 @Entity('appointments')
 export class Appointment {

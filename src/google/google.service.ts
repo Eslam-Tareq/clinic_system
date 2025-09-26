@@ -7,9 +7,9 @@ import * as querystring from 'querystring';
 import axios from 'axios';
 import { Response } from 'express';
 import { InjectRepository } from '@nestjs/typeorm';
-import { User } from 'src/user/user.entity';
+import { User } from '../user/user.entity';
 import { Repository } from 'typeorm';
-import { TokenService } from 'src/token/token.service';
+import { TokenService } from '../token/token.service';
 
 @Injectable()
 export class GoogleService {

@@ -1,4 +1,4 @@
-import { MedicalHistory } from 'src/medical-history/medical-history.entity';
+import { MedicalHistory } from '../medical-history/medical-history.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,

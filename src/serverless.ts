@@ -1,14 +1,14 @@
 import * as dotenv from 'dotenv';
 dotenv.config();
 import { NestFactory } from '@nestjs/core';
-import { AppModule } from 'src/app.module';
 import { Handler, Context, Callback } from 'aws-lambda';
 
-import { SwaggerConfig } from 'src/config/swagger';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import cookieParser = require('cookie-parser');
 import { useContainer } from 'class-validator';
 import serverlessExpress from '@vendia/serverless-express';
+import { AppModule } from './app.module';
+import { SwaggerConfig } from './config/swagger';
 let server: any;
 
 async function bootstrap() {

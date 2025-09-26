@@ -1,4 +1,3 @@
-import { AppointmentPaymentMethod } from 'src/enums/appointment-payment-method.enum';
 import {
   Column,
   CreateDateColumn,
@@ -9,8 +8,9 @@ import {
   OneToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
-import { Appointment } from 'src/appointment/appointment.entity';
-import { User } from 'src/user/user.entity';
+import { AppointmentPaymentMethod } from '../enums/appointment-payment-method.enum';
+import { Appointment } from './appointment.entity';
+import { User } from '../user/user.entity';
 
 @Entity()
 export class AppointmentBooking {

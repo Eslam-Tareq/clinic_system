@@ -6,9 +6,9 @@ import {
   IsString,
   Length,
 } from 'class-validator';
-import { IsEmailUnique } from 'src/common/validators/email-exists.validator';
-import { Match } from 'src/common/validators/match.validator';
-import { UserGender } from 'src/enums/user-gender.enum';
+import { IsEmailUnique } from '../../common/validators/email-exists.validator';
+import { Match } from '../../common/validators/match.validator';
+import { UserGender } from '../../enums/user-gender.enum';
 
 export class SignUpDto {
   @IsString()

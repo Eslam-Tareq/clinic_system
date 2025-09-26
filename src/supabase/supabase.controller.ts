@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
 import * as multer from 'multer';
-import { ResponseDto } from 'src/common/filters/response.dto';
+import { ResponseDto } from '../common/filters/response.dto';
 import { SupabaseService } from './supabase.service';
 
 @Controller('supabase')

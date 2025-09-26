@@ -10,11 +10,11 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { SignUpDto } from './dtos/sign-up.dto';
-import { ResponseDto } from 'src/common/filters/response.dto';
+import { ResponseDto } from '../common/filters/response.dto';
 import { Response } from 'express';
 import { LoginDto } from './dtos/login.dto';
 import { ApiOperation, ApiQuery, ApiResponse } from '@nestjs/swagger';
-import { GoogleService } from 'src/google/google.service';
+import { GoogleService } from '../google/google.service';
 
 @Controller('auth')
 export class AuthController {

@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsDateString, IsEnum, IsInt, IsOptional } from 'class-validator';
-import { IsFutureDate } from 'src/common/validators/is-future-date.validator';
-import { TimeSlotStatus } from 'src/enums/time-slot-status.enum';
+import { IsFutureDate } from '../../common/validators/is-future-date.validator';
+import { TimeSlotStatus } from '../../enums/time-slot-status.enum';
 
 export class CreateTimeSlotDto {
   // @ApiProperty({ example: 1, description: 'Doctor ID' })
