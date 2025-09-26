@@ -9,9 +9,6 @@ import cookieParser = require('cookie-parser');
 import { useContainer } from 'class-validator';
 import { INestApplication } from '@nestjs/common';
 
-// لا تقم باستدعاء dotenv.config() هنا، قم بوضع المتغيرات في Vercel مباشرة
-
-// نقوم بعمل Caching للـ app instance لتجنب إعادة بنائه مع كل طلب
 let cachedApp: INestApplication;
 
 async function bootstrap() {
