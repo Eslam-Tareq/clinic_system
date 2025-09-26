@@ -2,10 +2,10 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from '../src/app.module'; // تأكد من أن المسار صحيح
 import { ExpressAdapter } from '@nestjs/platform-express';
-import express from 'express';
+import express = require('express');
 import { SwaggerConfig } from '../src/config/swagger'; // تأكد من أن المسار صحيح
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
-import cookieParser from 'cookie-parser';
+import cookieParser = require('cookie-parser');
 import { useContainer } from 'class-validator';
 import { INestApplication } from '@nestjs/common';
 
