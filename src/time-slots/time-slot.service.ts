@@ -138,4 +138,10 @@ WHERE gs >= '${start_date}'::timestamptz
     }
     await this.TimeSlotRepo.remove(timeSlot);
   }
+  async getTimeSlotById(timeSlotId: number) {
+    const timeSlot = await this.TimeSlotRepo.findOne({
+      where: { id: timeSlotId },
+    });
+    return timeSlot;
+  }
 }

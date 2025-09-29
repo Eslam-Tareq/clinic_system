@@ -41,13 +41,11 @@ async function bootstrap() {
 
   app.setGlobalPrefix(process.env.GLOBAL_PREFIX || 'api', { exclude: ['/'] });
 
-  // بدلاً من app.listen()، نستخدم app.init()
   await app.init();
   cachedApp = app;
   return app;
 }
 
-// هذه هي الـ handler function التي ستستدعيها Vercel
 export default async function handler(req, res) {
   const app = await bootstrap();
   const expressApp = app.getHttpAdapter().getInstance();

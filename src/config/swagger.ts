@@ -5,7 +5,7 @@ export class SwaggerConfig {
     const config = new DocumentBuilder()
       .setTitle(process.env.APP_NAME)
       .setDescription(process.env.APP_DESCRIPTION)
-      .setVersion('1.0')
+      .setVersion(process.env.APP_VERSION)
       .addBearerAuth(
         {
           type: 'http',

@@ -9,6 +9,7 @@ import { SupabaseModule } from './supabase/supabase.module';
 import { MedicalHistoryModule } from './medical-history/medical-history.module';
 import { TimeSlotModule } from './time-slots/time-slot.module';
 import { AppController } from './app.controller';
+import { AppointmentModule } from './appointment/appointment.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { AppController } from './app.controller';
     SupabaseModule,
     MedicalHistoryModule,
     TimeSlotModule,
+    AppointmentModule,
   ],
   providers: [{ provide: APP_FILTER, useClass: CatchEverythingFilter }],
   controllers: [AppController],
