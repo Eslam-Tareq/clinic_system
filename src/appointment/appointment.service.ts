@@ -31,7 +31,8 @@ export class AppointmentService {
     if (!slot) {
       throw new NotFoundException('Time slot not found');
     }
-    if (slot.date.toString() < new Date().toString()) {
+
+    if (new Date(slot.date).getTime() < new Date().getTime()) {
       throw new BadRequestException('Cannot book past time slots');
     }
     if (slot.status === TimeSlotStatus.Booked) {
@@ -107,7 +108,13 @@ export class AppointmentService {
       );
     }
     appointment.status = 'accepted';
-    return await this.AppointmentRepo.save(appointment);
+    const bookTimeSlot = await this.timeSlotService.updateTimeSlotStatus(
+      appointment.slot.id,
+      TimeSlotStatus.Booked,
+    );
+    const updatedAppointment = await this.AppointmentRepo.save(appointment);
+    delete updatedAppointment.slot;
+    return { ...updatedAppointment, slot: bookTimeSlot };
   }
   async rejectAppointment(appointment_id: number) {
     return this.changeAppointmentStatus(

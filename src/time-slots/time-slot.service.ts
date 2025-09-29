@@ -11,6 +11,8 @@ import { CreateMultipleTimeSlotsDto } from './dtos/create-multiple-time-slots.dt
 import { ApiFeatures } from '../common/utils/api_features';
 import { GetAllQueryDto } from './dtos/get-all-query.dto';
 import { UpdateTimeSlotDto } from './dtos/update-one-time-slot.dto';
+import { TimeSlotStatus } from '../enums/time-slot-status.enum';
+import { time } from 'console';
 
 @Injectable()
 export class TimeSlotService {
@@ -143,5 +145,10 @@ WHERE gs >= '${start_date}'::timestamptz
       where: { id: timeSlotId },
     });
     return timeSlot;
+  }
+  async updateTimeSlotStatus(id: number, status: TimeSlotStatus) {
+    const timeSlot = await this.TimeSlotRepo.findOne({ where: { id } });
+    timeSlot.status = status;
+    return await this.TimeSlotRepo.save(timeSlot);
   }
 }
