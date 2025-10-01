@@ -35,6 +35,11 @@ export class TimeSlotService {
     return timeSlot;
   }
   async getAllTimeSlots(queryObject: GetAllQueryDto) {
+    const today = new Date();
+    today.setUTCHours(0, 0, 0, 0);
+
+    const startOfDayISO = today.toISOString();
+    console.log('startOfDayISO', startOfDayISO);
     const dataBaseQuery = `
     SELECT 
   to_char(date::date, 'YYYY-MM-DD') AS slot_date,
@@ -46,14 +51,14 @@ export class TimeSlotService {
     ) ORDER BY date
   ) AS slots
 FROM time_slots
-WHERE date >= '${new Date().toISOString()}'
+WHERE date >= '${startOfDayISO}'
 GROUP BY date::date
 ORDER BY slot_date
   `;
     const totalItemsNumber = (
       await this.TimeSlotRepo.query(`
     select to_char(date::date, 'YYYY-MM-DD') AS slot_date
- from time_slots  WHERE date>= '${new Date().toISOString()}'
+ from time_slots  WHERE date>= '${startOfDayISO}'
  group by date::date
       `)
     ).length;
