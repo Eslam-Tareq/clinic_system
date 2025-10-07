@@ -14,7 +14,7 @@ export class CreateAppointmentDto {
   phone: string;
   @IsInt()
   time_slot_id: number;
-  @IsOptional()
+  // @IsOptional()
   // @IsEnum(AppointmentType)
   // type?: AppointmentType;
   @IsInt()
