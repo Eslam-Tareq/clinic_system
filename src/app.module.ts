@@ -10,6 +10,7 @@ import { MedicalHistoryModule } from './medical-history/medical-history.module';
 import { TimeSlotModule } from './time-slots/time-slot.module';
 import { AppController } from './app.controller';
 import { AppointmentModule } from './appointment/appointment.module';
+import { AppointmentTypeModule } from './appointment-type/appointment-type.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { AppointmentModule } from './appointment/appointment.module';
     MedicalHistoryModule,
     TimeSlotModule,
     AppointmentModule,
+    AppointmentTypeModule,
   ],
   providers: [{ provide: APP_FILTER, useClass: CatchEverythingFilter }],
   controllers: [AppController],

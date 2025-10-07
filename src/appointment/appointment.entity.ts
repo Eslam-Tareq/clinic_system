@@ -10,9 +10,9 @@ import {
 } from 'typeorm';
 import { TimeSlot } from '../time-slots/time-slot.entity';
 import { User } from '../user/user.entity';
-import { AppointmentType } from '../enums/appointment-type.enum';
 import { AppointmentStatus } from '../enums/appointment-status.enum';
 import { AppointmentBooking } from './appointment-booking.entity';
+import { AppointmentType } from '../appointment-type/appointment-type.entity';
 
 @Entity('appointments')
 export class Appointment {
@@ -33,12 +33,12 @@ export class Appointment {
   })
   @JoinColumn({ name: 'patient_id' })
   patient: User;
-  @Column({
-    type: 'enum',
-    enum: AppointmentType,
-    default: AppointmentType.Normal,
-  })
-  type: string;
+  // @Column({
+  //   type: 'enum',
+  //   enum: At,
+  //   default: At.Normal,
+  // })
+  // type: string;
   @Column({ nullable: true })
   reason: string;
   @Column({
@@ -59,4 +59,9 @@ export class Appointment {
     { onDelete: 'CASCADE' },
   )
   appointment_booking: AppointmentBooking[];
+  @ManyToOne(() => AppointmentType, (at) => at.appointments, {
+    onDelete: 'CASCADE',
+  })
+  @JoinColumn({ name: 'appointment_type_id' })
+  appointment_type: AppointmentType;
 }

@@ -7,19 +7,20 @@ import {
 } from 'class-validator';
 import { AppointmentType } from '../../enums/appointment-type.enum';
 
-export class CreateAppointmentDto {
-  @IsString()
-  name: string;
-  @IsPhoneNumber('EG')
-  phone: string;
-  @IsInt()
-  time_slot_id: number;
-  @IsOptional()
-  // @IsEnum(AppointmentType)
-  // type?: AppointmentType;
-  @IsInt()
-  appointment_type_id: number;
+export class UpdateAppointmentTypeDto {
   @IsOptional()
   @IsString()
-  reason?: string;
+  title: string;
+  @IsOptional()
+  @IsEnum(AppointmentType)
+  type: AppointmentType;
+  @IsOptional()
+  @IsInt()
+  price: number;
+  @IsOptional()
+  @IsInt()
+  discount: number;
+  @IsOptional()
+  @IsString()
+  description: string;
 }

@@ -12,7 +12,6 @@ import { ApiFeatures } from '../common/utils/api_features';
 import { GetAllQueryDto } from './dtos/get-all-query.dto';
 import { UpdateTimeSlotDto } from './dtos/update-one-time-slot.dto';
 import { TimeSlotStatus } from '../enums/time-slot-status.enum';
-import { time } from 'console';
 
 @Injectable()
 export class TimeSlotService {

@@ -5,6 +5,7 @@ import { TimeSlotModule } from '../time-slots/time-slot.module';
 import { UserModule } from '../user/user.module';
 import { Appointment } from './appointment.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { AppointmentTypeModule } from '../appointment-type/appointment-type.module';
 
 @Module({
   controllers: [AppointmentController],
@@ -12,6 +13,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
   imports: [
     UserModule,
     TimeSlotModule,
+    AppointmentTypeModule,
     TypeOrmModule.forFeature([Appointment]),
   ],
 })

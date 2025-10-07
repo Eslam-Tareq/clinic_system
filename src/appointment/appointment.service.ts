@@ -12,12 +12,14 @@ import { TimeSlotService } from '../time-slots/time-slot.service';
 import { AppointmentStatus } from '../enums/appointment-status.enum';
 import { TimeSlotStatus } from '../enums/time-slot-status.enum';
 import { ChangeAppointmentStatusDto } from './dto/change-appointment-status.dto';
+import { AppointmentTypeService } from '../appointment-type/appointment-type.service';
 
 @Injectable()
 export class AppointmentService {
   constructor(
     @InjectRepository(Appointment)
     private readonly AppointmentRepo: Repository<Appointment>,
+    private readonly appointmentTypeService: AppointmentTypeService,
     private readonly userService: UserService,
     private readonly timeSlotService: TimeSlotService,
   ) {}
@@ -26,12 +28,16 @@ export class AppointmentService {
     user_id: number,
   ) {
     const user = await this.userService.findById(user_id);
-    const { name, phone, type, reason, time_slot_id } = createAppointmentDto;
+    const { name, phone, appointment_type_id, reason, time_slot_id } =
+      createAppointmentDto;
     const slot = await this.timeSlotService.getTimeSlotById(time_slot_id);
     if (!slot) {
       throw new NotFoundException('Time slot not found');
     }
-
+    const type = await this.appointmentTypeService.getById(appointment_type_id);
+    if (!type) {
+      throw new NotFoundException('Appointment type not found');
+    }
     if (new Date(slot.date).getTime() < new Date().getTime()) {
       throw new BadRequestException('Cannot book past time slots');
     }
@@ -47,7 +53,7 @@ export class AppointmentService {
     const newAppointment = new Appointment();
     newAppointment.name = name;
     newAppointment.phone = phone;
-    newAppointment.type = type;
+    newAppointment.appointment_type = type;
     newAppointment.reason = reason;
     newAppointment.patient = user;
     newAppointment.slot = slot;
@@ -57,7 +63,7 @@ export class AppointmentService {
   async getMyAppointments(user_id: number) {
     return await this.AppointmentRepo.find({
       where: { patient: { id: user_id } },
-      relations: ['slot', 'patient'],
+      relations: ['slot', 'patient', 'appointment_type'],
       order: { slot: { date: 'DESC' } },
     });
   }
@@ -77,7 +83,7 @@ export class AppointmentService {
   async getAllAppointments(status: AppointmentStatus) {
     return await this.AppointmentRepo.find({
       where: { status },
-      relations: ['slot', 'patient'],
+      relations: ['slot', 'patient', 'appointment_type'],
       order: { slot: { date: 'ASC' } },
     });
   }
