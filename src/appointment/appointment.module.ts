@@ -6,6 +6,7 @@ import { UserModule } from '../user/user.module';
 import { Appointment } from './appointment.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppointmentTypeModule } from '../appointment-type/appointment-type.module';
+import { NotificationModule } from '../notification/notification.module';
 
 @Module({
   controllers: [AppointmentController],
@@ -15,6 +16,7 @@ import { AppointmentTypeModule } from '../appointment-type/appointment-type.modu
     TimeSlotModule,
     AppointmentTypeModule,
     TypeOrmModule.forFeature([Appointment]),
+    NotificationModule,
   ],
 })
 export class AppointmentModule {}

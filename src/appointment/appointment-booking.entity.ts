@@ -11,6 +11,7 @@ import {
 import { AppointmentPaymentMethod } from '../enums/appointment-payment-method.enum';
 import { Appointment } from './appointment.entity';
 import { User } from '../user/user.entity';
+import { Notification } from '../notification/notification.entity';
 
 @Entity()
 export class AppointmentBooking {
@@ -36,4 +37,8 @@ export class AppointmentBooking {
   })
   @JoinColumn({ name: 'patient_id' })
   patient: User;
+  @OneToMany(() => Notification, (notification) => notification.booking, {
+    onDelete: 'CASCADE',
+  })
+  notifications: Notification[];
 }

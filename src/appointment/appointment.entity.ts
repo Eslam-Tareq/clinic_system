@@ -7,12 +7,14 @@ import {
   JoinColumn,
   Unique,
   CreateDateColumn,
+  OneToMany,
 } from 'typeorm';
 import { TimeSlot } from '../time-slots/time-slot.entity';
 import { User } from '../user/user.entity';
 import { AppointmentStatus } from '../enums/appointment-status.enum';
 import { AppointmentBooking } from './appointment-booking.entity';
 import { AppointmentType } from '../appointment-type/appointment-type.entity';
+import { Notification } from '../notification/notification.entity';
 
 @Entity('appointments')
 export class Appointment {
@@ -64,4 +66,8 @@ export class Appointment {
   })
   @JoinColumn({ name: 'appointment_type_id' })
   appointment_type: AppointmentType;
+  @OneToMany(() => Notification, (notification) => notification.appointment, {
+    onDelete: 'CASCADE',
+  })
+  notifications: Notification[];
 }

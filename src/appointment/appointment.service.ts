@@ -13,6 +13,8 @@ import { AppointmentStatus } from '../enums/appointment-status.enum';
 import { TimeSlotStatus } from '../enums/time-slot-status.enum';
 import { ChangeAppointmentStatusDto } from './dto/change-appointment-status.dto';
 import { AppointmentTypeService } from '../appointment-type/appointment-type.service';
+import { NotificationService } from '../notification/notification.service';
+import { NotificationType } from '../enums/notification-type.enum';
 
 @Injectable()
 export class AppointmentService {
@@ -22,6 +24,7 @@ export class AppointmentService {
     private readonly appointmentTypeService: AppointmentTypeService,
     private readonly userService: UserService,
     private readonly timeSlotService: TimeSlotService,
+    private readonly notificationService: NotificationService,
   ) {}
   async bookAppointment(
     createAppointmentDto: CreateAppointmentDto,
@@ -91,7 +94,7 @@ export class AppointmentService {
   async acceptAppointment(appointment_id: number) {
     const appointment = await this.AppointmentRepo.findOne({
       where: { id: appointment_id },
-      relations: ['slot'],
+      relations: ['slot', 'patient'],
     });
     if (!appointment) {
       throw new NotFoundException('Appointment not found');
@@ -103,24 +106,48 @@ export class AppointmentService {
           status: AppointmentStatus.Accepted,
         },
       });
-    if (isExistingAppointmentAcceptedOnTimeSlot) {
-      throw new BadRequestException(
-        `Another appointment is already accepted on this time slot`,
-      );
-    }
-    if (appointment.status === 'accepted') {
-      throw new BadRequestException(
-        `Appointment already ${appointment.status}`,
-      );
-    }
+    // if (isExistingAppointmentAcceptedOnTimeSlot) {
+    //   throw new BadRequestException(
+    //     `Another appointment is already accepted on this time slot`,
+    //   );
+    // }
+    // if (appointment.status === 'accepted') {
+    //   throw new BadRequestException(
+    //     `Appointment already ${appointment.status}`,
+    //   );
+    // }
     appointment.status = 'accepted';
-    const bookTimeSlot = await this.timeSlotService.updateTimeSlotStatus(
-      appointment.slot.id,
-      TimeSlotStatus.Booked,
-    );
+
     const updatedAppointment = await this.AppointmentRepo.save(appointment);
+    // sending notification
+    const notification = await this.notificationService.createNotification({
+      title: 'appointment accepted',
+      message: `congrats your appointment ${appointment.id} on time ${appointment.slot.date} , please complete the payment `,
+      type: NotificationType.AppointmentStatusChanged,
+      userId: appointment.patient.id,
+      appointmentId: appointment.id,
+    });
+    const notificationData = {
+      message: notification.message,
+      title: notification.title,
+      type: notification.type,
+      userId: `${notification.user.id}`,
+      id: `${notification.id}`,
+      appointmentId: `${notification.appointment.id}`,
+      bookingId: `${notification?.booking?.id}`,
+    };
+    const sendNotificationResponse =
+      await this.notificationService.sendNotification(
+        notificationData,
+        notificationData.title,
+        notificationData.message,
+      );
+    console.log(
+      'sending notifications response ',
+      sendNotificationResponse.responses[0].error,
+    );
     delete updatedAppointment.slot;
-    return { ...updatedAppointment, slot: bookTimeSlot };
+    return { ...updatedAppointment /*slot: bookTimeSlot*/ };
   }
   async rejectAppointment(appointment_id: number) {
     return this.changeAppointmentStatus(

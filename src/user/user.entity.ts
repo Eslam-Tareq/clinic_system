@@ -3,7 +3,9 @@ import { Appointment } from '../appointment/appointment.entity';
 import { DoctorProfile } from '../doctor/doctor-profile.entity';
 import { UserGender } from '../enums/user-gender.enum';
 import { UserRoles } from '../enums/user-role.enum';
+import { FirebaseToken } from '../firebase/firebase-token.entity';
 import { MedicalHistory } from '../medical-history/medical-history.entity';
+import { Notification } from '../notification/notification.entity';
 import { TimeSlot } from '../time-slots/time-slot.entity';
 import {
   Column,
@@ -59,4 +61,12 @@ export class User {
     },
   )
   appointment_bookings: AppointmentBooking[];
+  @OneToMany(() => Notification, (notification) => notification.user, {
+    onDelete: 'CASCADE',
+  })
+  notifications: Notification[];
+  @OneToMany(() => FirebaseToken, (token) => token.user, {
+    onDelete: 'CASCADE',
+  })
+  firebaseTokens: FirebaseToken[];
 }

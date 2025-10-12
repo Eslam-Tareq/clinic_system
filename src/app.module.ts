@@ -11,6 +11,8 @@ import { TimeSlotModule } from './time-slots/time-slot.module';
 import { AppController } from './app.controller';
 import { AppointmentModule } from './appointment/appointment.module';
 import { AppointmentTypeModule } from './appointment-type/appointment-type.module';
+import { FirebaseModule } from './firebase/firebase.module';
+import { NotificationModule } from './notification/notification.module';
 
 @Module({
   imports: [
@@ -23,6 +25,8 @@ import { AppointmentTypeModule } from './appointment-type/appointment-type.modul
     TimeSlotModule,
     AppointmentModule,
     AppointmentTypeModule,
+    FirebaseModule,
+    NotificationModule,
   ],
   providers: [{ provide: APP_FILTER, useClass: CatchEverythingFilter }],
   controllers: [AppController],
