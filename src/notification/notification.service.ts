@@ -47,4 +47,11 @@ export class NotificationService {
       body,
     );
   }
+  async getAllMyNotifications(userId: number) {
+    const notifications = await this.notificationRepo.find({
+      where: { user: { id: userId } },
+      relations: ['appointment', 'booking'],
+    });
+    return notifications;
+  }
 }

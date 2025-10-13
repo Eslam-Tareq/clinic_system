@@ -6,6 +6,7 @@ import { SwaggerConfig } from './config/swagger';
 import { BadRequestException, ValidationPipe } from '@nestjs/common';
 import cookieParser = require('cookie-parser');
 import { useContainer } from 'class-validator';
+import './types/express-request.type';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   SwaggerConfig.setup(app);
