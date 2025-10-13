@@ -23,7 +23,7 @@ export class ApiFeatures {
     const limit = totalItems;
     const skip = (page - 1) * limit;
     const endIndex = page * limit;
-
+    //return all rows
     this.paginationMeta.currentPage = page;
     this.paginationMeta.limit = limit;
     this.paginationMeta.numOfPages = Math.ceil(totalItems / limit);
