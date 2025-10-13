@@ -6,6 +6,7 @@ import {
   Post,
   Put,
   Req,
+  Res,
   UseGuards,
 } from '@nestjs/common';
 import { UserService } from './user.service';
@@ -14,7 +15,7 @@ import { RoleGuard } from '../common/guards/role.gaurd';
 import { Role } from '../common/guards/role.decorator';
 import { UserRoles } from '../enums/user-role.enum';
 import { ResponseDto } from '../common/filters/response.dto';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { UpdateCurrentUserDto } from './dtos/update-current-user.dto';
 
 @Controller('user')
@@ -63,6 +64,16 @@ export class UserController {
     try {
       const result = await this.userService.deleteCurrentUser(req.user.id);
       return ResponseDto.ok(result);
+    } catch (error) {
+      throw error;
+    }
+  }
+  @Post('logout')
+  @UseGuards(AuthGuard)
+  async logout(@Res({ passthrough: true }) res: Response) {
+    try {
+      const result = await this.userService.logout(res);
+      return ResponseDto.success(result, 'your logout successfully');
     } catch (error) {
       throw error;
     }
