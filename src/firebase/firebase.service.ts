@@ -26,10 +26,6 @@ export class FireBaseService implements OnModuleInit {
 
   onModuleInit() {
     if (!admin.apps.length) {
-      const serviceAccountPath = path.join(
-        process.cwd(),
-        'serviceAccountKey.json',
-      );
       const firebaseConfig = {
         type: process.env.FIRE_BASE_TYPE,
         project_id: process.env.FIRE_BASE_PROJECT_ID,
