@@ -13,6 +13,7 @@ import { AppointmentModule } from './appointment/appointment.module';
 import { AppointmentTypeModule } from './appointment-type/appointment-type.module';
 import { FirebaseModule } from './firebase/firebase.module';
 import { NotificationModule } from './notification/notification.module';
+import { NestScheduleModule } from './config/nestSchedule.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { NotificationModule } from './notification/notification.module';
     AppointmentTypeModule,
     FirebaseModule,
     NotificationModule,
+    NestScheduleModule,
   ],
   providers: [{ provide: APP_FILTER, useClass: CatchEverythingFilter }],
   controllers: [AppController],
