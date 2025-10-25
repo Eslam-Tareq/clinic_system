@@ -3,6 +3,7 @@ import { Appointment } from '../appointment/appointment.entity';
 import { DoctorProfile } from '../doctor/doctor-profile.entity';
 import { UserGender } from '../enums/user-gender.enum';
 import { UserRoles } from '../enums/user-role.enum';
+import { Feedback } from '../feedback/feedback.entity';
 import { FirebaseToken } from '../firebase/firebase-token.entity';
 import { MedicalHistory } from '../medical-history/medical-history.entity';
 import { Notification } from '../notification/notification.entity';
@@ -69,4 +70,6 @@ export class User {
     onDelete: 'CASCADE',
   })
   firebaseTokens: FirebaseToken[];
+  @OneToMany(() => Feedback, (feedback) => feedback.user)
+  feedbacks: Feedback[];
 }
