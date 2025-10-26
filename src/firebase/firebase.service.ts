@@ -3,6 +3,7 @@ import {
   OnModuleInit,
   Logger,
   NotFoundException,
+  BadRequestException,
 } from '@nestjs/common';
 import * as admin from 'firebase-admin';
 import * as path from 'path';
@@ -53,6 +54,12 @@ export class FireBaseService implements OnModuleInit {
   }
 
   async registerToken(userId: number, registerTokenDto: RegisterTokenDto) {
+    const checkToken = await this.firebaseTokenRepo.findOne({
+      where: { token: registerTokenDto.token },
+    });
+    if (checkToken) {
+      throw new BadRequestException('Token already registered');
+    }
     const firebaseToken = this.firebaseTokenRepo.create({
       token: registerTokenDto.token,
       user: { id: userId },
