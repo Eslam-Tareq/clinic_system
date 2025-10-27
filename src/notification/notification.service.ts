@@ -54,4 +54,23 @@ export class NotificationService {
     });
     return notifications;
   }
+  async sendNotificationTest(createNotificationDto: CreateNotificationDto) {
+    const notification = await this.createNotification(createNotificationDto);
+
+    const notificationData = {
+      message: notification.message,
+      title: notification.title,
+      type: notification.type,
+      userId: `${notification.user.id}`,
+      id: `${notification.id}`,
+      appointmentId: `${notification.appointment.id}`,
+      bookingId: `${notification?.booking?.id}`,
+    };
+    const sendNotificationResponse = await this.sendNotification(
+      notificationData,
+      notificationData.title,
+      notificationData.message,
+    );
+    return sendNotificationResponse;
+  }
 }
