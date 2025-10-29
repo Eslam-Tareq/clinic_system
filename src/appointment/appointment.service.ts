@@ -97,6 +97,7 @@ export class AppointmentService {
       where: { id: appointment_id },
       relations: ['slot', 'user'],
     });
+    console.log('appointment to accept', appointment);
     if (!appointment) {
       throw new NotFoundException('Appointment not found');
     }
