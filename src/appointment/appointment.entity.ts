@@ -31,7 +31,7 @@ export class Appointment {
   @JoinColumn({ name: 'slot_id' })
   slot: TimeSlot;
 
-  @ManyToOne(() => User, (patient) => patient.appointments, {
+  @ManyToOne(() => User, (user) => user.appointments, {
     onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'user_id' })
