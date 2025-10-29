@@ -15,6 +15,7 @@ import { AppointmentStatus } from '../enums/appointment-status.enum';
 import { AppointmentBooking } from './appointment-booking.entity';
 import { AppointmentType } from '../appointment-type/appointment-type.entity';
 import { Notification } from '../notification/notification.entity';
+import { UserGender } from '../enums/user-gender.enum';
 
 @Entity('appointments')
 export class Appointment {
@@ -30,17 +31,19 @@ export class Appointment {
   @JoinColumn({ name: 'slot_id' })
   slot: TimeSlot;
 
-  @ManyToOne(() => User, (patient) => patient.appointments, {
+  @ManyToOne(() => User, (user) => user.appointments, {
     onDelete: 'CASCADE',
   })
-  @JoinColumn({ name: 'patient_id' })
-  patient: User;
+  @JoinColumn({ name: 'user_id' })
+  user: User;
   // @Column({
   //   type: 'enum',
   //   enum: At,
   //   default: At.Normal,
   // })
   // type: string;
+  @Column({ type: 'enum', enum: UserGender, default: UserGender.MALE })
+  gender: string;
   @Column({ nullable: true })
   reason: string;
   @Column({

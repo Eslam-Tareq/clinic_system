@@ -31,7 +31,7 @@ export class AppointmentService {
     user_id: number,
   ) {
     const user = await this.userService.findById(user_id);
-    const { name, phone, appointment_type_id, reason, time_slot_id } =
+    const { name, phone, appointment_type_id, reason, time_slot_id, gender } =
       createAppointmentDto;
     const slot = await this.timeSlotService.getTimeSlotById(time_slot_id);
     if (!slot) {
@@ -48,7 +48,7 @@ export class AppointmentService {
       throw new BadRequestException('Time slot already booked');
     }
     const isExistingAppointment = await this.AppointmentRepo.findOne({
-      where: { slot: { id: time_slot_id }, patient: { id: user_id } },
+      where: { slot: { id: time_slot_id }, user: { id: user_id } },
     });
     if (isExistingAppointment) {
       throw new BadRequestException('You have already booked this slot');
@@ -58,21 +58,22 @@ export class AppointmentService {
     newAppointment.phone = phone;
     newAppointment.appointment_type = type;
     newAppointment.reason = reason;
-    newAppointment.patient = user;
+    newAppointment.user = user;
     newAppointment.slot = slot;
+    newAppointment.gender = gender;
 
     return await this.AppointmentRepo.save(newAppointment);
   }
   async getMyAppointments(user_id: number) {
     return await this.AppointmentRepo.find({
-      where: { patient: { id: user_id } },
-      relations: ['slot', 'patient', 'appointment_type'],
+      where: { user: { id: user_id } },
+      relations: ['slot', 'user', 'appointment_type'],
       order: { slot: { date: 'DESC' } },
     });
   }
   async cancelAppointment(appointment_id: number, user_id: number) {
     const appointment = await this.AppointmentRepo.findOne({
-      where: { id: appointment_id, patient: { id: user_id } },
+      where: { id: appointment_id, user: { id: user_id } },
     });
     if (!appointment) {
       throw new NotFoundException('Appointment not found');
@@ -86,7 +87,7 @@ export class AppointmentService {
   async getAllAppointments(status: AppointmentStatus) {
     return await this.AppointmentRepo.find({
       where: { status },
-      relations: ['slot', 'patient', 'appointment_type'],
+      relations: ['slot', 'user', 'appointment_type'],
       order: { slot: { date: 'ASC' } },
     });
   }
@@ -94,7 +95,7 @@ export class AppointmentService {
   async acceptAppointment(appointment_id: number) {
     const appointment = await this.AppointmentRepo.findOne({
       where: { id: appointment_id },
-      relations: ['slot', 'patient'],
+      relations: ['slot', 'user'],
     });
     if (!appointment) {
       throw new NotFoundException('Appointment not found');
@@ -124,7 +125,7 @@ export class AppointmentService {
       title: 'appointment accepted',
       message: `congrats your appointment ${appointment.id} on time ${appointment.slot.date} , please complete the payment `,
       type: NotificationType.AppointmentStatusChanged,
-      userId: appointment.patient.id,
+      userId: appointment.user.id,
       appointmentId: appointment.id,
     });
     const notificationData = {
