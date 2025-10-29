@@ -6,6 +6,7 @@ import {
   IsString,
 } from 'class-validator';
 import { AppointmentType } from '../../enums/appointment-type.enum';
+import { UserGender } from '../../enums/user-gender.enum';
 
 export class CreateAppointmentDto {
   @IsString()
@@ -22,4 +23,6 @@ export class CreateAppointmentDto {
   @IsOptional()
   @IsString()
   reason?: string;
+  @IsEnum(UserGender)
+  gender: string;
 }

@@ -50,7 +50,7 @@ export class User {
   //   onDelete: 'CASCADE',
   // })
   // slots: TimeSlot[];
-  @OneToMany(() => Appointment, (appointment) => appointment.patient, {
+  @OneToMany(() => Appointment, (appointment) => appointment.user, {
     onDelete: 'CASCADE',
   })
   appointments: Appointment[];
