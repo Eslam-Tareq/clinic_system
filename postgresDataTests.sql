@@ -1,5 +1,5 @@
-INSERT INTO appointment_type (title, type, price, discount, description, price_after_discount)
-VALUES ('Standard Check-up', 'normal', 50.00, 0.00, 'A regular, non-urgent consultation.', 50.00),('Critical Emergency Visit', 'emergency', 250.00, 10, 'Immediate care for life-threatening situations.', 225.00),('Urgent Same-Day Care', 'urgent', 150.00, 20, 'Care needed within 24 hours, but not life-threatening.', 120.00)
+INSERT INTO appointment_types (title, type, price, discount, description)
+VALUES ('Standard Check-up', 'normal', 50.00, 0.00, 'A regular, non-urgent consultation.'),('Critical Emergency Visit', 'emergency', 250.00, 10, 'Immediate care for life-threatening situations.'),('Urgent Same-Day Care', 'urgent', 150.00, 20, 'Care needed within 24 hours, but not life-threatening.')
 
 
 INSERT INTO appointment_type (title, type, price, discount, description, price_after_discount)
