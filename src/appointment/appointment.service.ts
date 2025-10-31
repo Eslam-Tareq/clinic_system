@@ -144,10 +144,7 @@ export class AppointmentService {
         notificationData.title,
         notificationData.message,
       );
-    console.log(
-      'sending notifications response ',
-      sendNotificationResponse.responses[0].error,
-    );
+
     delete updatedAppointment.slot;
     return { ...updatedAppointment /*slot: bookTimeSlot*/ };
   }
