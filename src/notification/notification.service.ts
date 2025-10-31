@@ -37,8 +37,8 @@ export class NotificationService {
       +notification.userId,
     );
     console.log(tokens);
-    if (!tokens) {
-      throw new NotFoundException('tokens not found');
+    if (tokens.length === 0) {
+      return;
     }
     return await this.firebaseService.sendNotifications(
       tokens,
