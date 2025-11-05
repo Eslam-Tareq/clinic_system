@@ -41,7 +41,7 @@ export class AppointmentTypeController {
       throw error;
     }
   }
-  @UseGuards(AuthGuard)
+
   @Get()
   async getAllAppointmentType() {
     try {
