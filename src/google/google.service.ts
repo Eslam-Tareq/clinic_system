@@ -73,7 +73,7 @@ export class GoogleService {
       const token = this.tokenService.generateJwtToken(foundUser);
       response.cookie('accessToken', token, {
         httpOnly: true,
-        sameSite: true,
+        //sameSite: true,
       });
 
       response.redirect(`${frontendRedirect}?accessToken=${token}`);
@@ -88,7 +88,7 @@ export class GoogleService {
       const token = this.tokenService.generateJwtToken(newUser);
       response.cookie('accessToken', token, {
         httpOnly: true,
-        sameSite: true,
+        // sameSite: true,
       });
 
       response.redirect(`${frontendRedirect}?accessToken=${token}`);
