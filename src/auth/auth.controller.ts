@@ -126,7 +126,12 @@ export class AuthController {
     @Query('code') code: string,
     @Res({ passthrough: true }) res: Response,
   ) {
-    return this.googleService.googleAuthCallBack(code, res);
+    try {
+      const result = await this.googleService.googleAuthCallBack(code, res);
+      return ResponseDto.ok(result);
+    } catch (err) {
+      throw err;
+    }
   }
 
   @Post('logout')
