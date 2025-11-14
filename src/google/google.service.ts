@@ -75,8 +75,10 @@ export class GoogleService {
         httpOnly: true,
         //sameSite: true,
       });
-
-      response.redirect(`${frontendRedirect}?accessToken=${token}`);
+      return {
+        user: foundUser,
+        accessToken: token,
+      };
     } else {
       const newUser = this.UserRepo.create({
         first_name: userData.first_name,
@@ -90,8 +92,10 @@ export class GoogleService {
         httpOnly: true,
         // sameSite: true,
       });
-
-      response.redirect(`${frontendRedirect}?accessToken=${token}`);
+      return {
+        user: newUser,
+        accessToken: token,
+      };
     }
   }
   async exchangeCodeForTokens(code: string) {
