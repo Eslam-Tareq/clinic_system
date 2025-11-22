@@ -118,7 +118,7 @@ export class AppointmentService {
     //     `Appointment already ${appointment.status}`,
     //   );
     // }
-    appointment.status = 'accepted';
+    appointment.status = AppointmentStatus.Accepted;
 
     const updatedAppointment = await this.AppointmentRepo.save(appointment);
     // sending notification
@@ -145,6 +145,10 @@ export class AppointmentService {
         notificationData.message,
       );
 
+    await this.timeSlotService.updateTimeSlotStatus(
+      appointment.slot.id,
+      TimeSlotStatus.Booked,
+    );
     delete updatedAppointment.slot;
     return { ...updatedAppointment /*slot: bookTimeSlot*/ };
   }
